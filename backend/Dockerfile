@@ -5,7 +5,8 @@ ENV PATH="/opt/venv/bin:$PATH"
 
 COPY requirements.txt .
 
-RUN pip install gunicorn==20.1.0
+RUN pip install --upgrade pip
+RUN pip install gunicorn==20.1.0 --no-cache-dir 
 RUN pip install -r requirements.txt 
 
 

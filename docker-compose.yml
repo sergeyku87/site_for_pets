@@ -20,6 +20,12 @@ services:
       - media:/media
     depends_on:
       - db
+    restart: always
+    command: >
+      sh -c "python3 manage.py migrate &&
+             python3 manage.py collectstatic &&
+             cp -r static_backend/. /static/static &&
+             gunicorn -b 0:8000 kittygram_backend.wsgi"
 
   frontend:
     env_file: .env
@@ -27,6 +33,7 @@ services:
     command: cp -r /app/build/. /static/
     volumes:
       - static:/static
+    restart: always
 
   gateway:
     build: ./nginx/
@@ -36,3 +43,6 @@ services:
     volumes:
       - static:/static
       - media:/media
+    depends_on:
+      - backend
+    restart: always
