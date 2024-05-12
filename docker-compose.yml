@@ -14,6 +14,7 @@ services:
 
   backend:
     build: ./backend/
+    image: sergeyku87/kittygram_backend
     env_file: .env
     volumes:
       - static:/static
@@ -23,13 +24,14 @@ services:
     restart: always
     command: >
       sh -c "python3 manage.py migrate &&
-             python3 manage.py collectstatic &&
+             python3 manage.py collectstatic --noinput &&
              cp -r static_backend/. /static/static &&
              gunicorn -b 0:8000 kittygram_backend.wsgi"
 
   frontend:
     env_file: .env
     build: ./frontend/
+    image: sergeyku87/kittygram_frontend
     command: cp -r /app/build/. /static/
     volumes:
       - static:/static
@@ -37,6 +39,7 @@ services:
 
   gateway:
     build: ./nginx/
+    image: sergeyku87/kittygram_gateway
     env_file: .env
     ports:
       - 9000:80
