@@ -30,7 +30,6 @@ services:
   frontend:
     image: sergeyku87/kittygram_frontend
     env_file: .env
-    command: cp -r /app/build/. /static/
     volumes:
       - static:/static
     restart: always

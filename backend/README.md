@@ -1,51 +1,26 @@
-### Как запустить проект:
+# Backend часть сайта про котов.
+---
 
-Клонировать репозиторий и перейти в него в командной строке:
+__Для запуска проэкта используется Dockerfile.__
+Команда для сборки образа:
+> `docker build -t <name-image>.` Находясь в папке с Dockerfile
 
-```
-git clone https://github.com/yandex-praktikum/kittygram_backend.git
-```
+Команда для простого запуска образа:
+> `docker run <name-image>`
 
-```
-cd kittygram_backend
-```
+В сборке образа участвуют python пакеты:
+> * Django==3.2.3
+> * djangorestframework==3.12.4
+> * djoser==2.1.0
+> * webcolors==1.11.1
+> * psycopg2-binary==2.9.3
+> * Pillow==9.0.0
+> * pytest==6.2.4
+> * pytest-django==4.4.0
+> * pytest-pythonpath==0.7.3
+> * PyYAML==6.0
+> * gunicorn==20.1.0
+--- 
+> В проэкте используется **sqlite3**, если не указана другая база данных,
+> из возможных, предусмотрено взаимодействие с **postgresql**.
 
-Cоздать и активировать виртуальное окружение:
-
-```
-python3 -m venv env
-```
-
-* Если у вас Linux/macOS
-
-    ```
-    source env/bin/activate
-    ```
-
-* Если у вас windows
-
-    ```
-    source env/scripts/activate
-    ```
-
-```
-python3 -m pip install --upgrade pip
-```
-
-Установить зависимости из файла requirements.txt:
-
-```
-pip install -r requirements.txt
-```
-
-Выполнить миграции:
-
-```
-python3 manage.py migrate
-```
-
-Запустить проект:
-
-```
-python3 manage.py runserver
-```

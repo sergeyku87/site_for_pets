@@ -1,12 +1,20 @@
 # flake8: noqa
 import os
+import sys
 from pathlib import Path
+
+from kittygram_backend.utils import db, on_or_off
+
 
 BASE_DIR = Path(__file__).resolve().parent.parent
 
-SECRET_KEY = 'django-insecure-cg6*%6d51ef8f#4!r3*$vmxm4)abgjw8mo!4y-q*uq1!4$-89$'
+# Не проходят тесты если ключ в env файле
 
-DEBUG = False
+KEY = 'django-insecure-cg6*%6d51ef8f#4!r3*$vmxm4)abgjw8mo!4y-q*uq1!4$-89$'
+
+SECRET_KEY = os.getenv('SECRET_KEY', KEY) or sys.exit("Need SECRET KEY for correct work")
+
+DEBUG = on_or_off(os.getenv('TRIGGER'))
 
 ALLOWED_HOSTS = [
     os.getenv('ALLOWED_HOST', '*'),
@@ -55,18 +63,9 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'kittygram_backend.wsgi.application'
 
-
 DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.postgresql',
-        'NAME': os.getenv('POSTGRES_DB'),
-        'USER': os.getenv('POSTGRES_USER'),
-        'PASSWORD': os.getenv('POSTGRES_PASSWORD'),
-        'HOST': os.getenv('DB_HOST'),
-        'PORT': os.getenv('DB_PORT')
-    }
+    'default': db(os.getenv('NAME_DATABASE'))
 }
-
 
 AUTH_PASSWORD_VALIDATORS = [
     {
